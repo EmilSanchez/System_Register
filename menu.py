@@ -9,33 +9,32 @@ BLUE = '\033[34m'
 MAGENTA = '\033[35m'
 WHITE = '\033[37m'
 
-def existencia():
-    if os.path.isfile("datos usuarios.txt"):
-        if os.path.isfile("datos tarjeta.txt"):
-            return True
-        else:
-            return False
-    else:
-        return False
-
 def crear_archivos():
-    fieldnames_user=["nombre","cedula","tarjetas"]
+    fieldnames_user=["nombre","cedula","direccion","tarjetas"]
     try:
-        with open("datos usuarios.txt","w",encoding="UTF-8",newline="") as title:
+        with open("datos_usuarios.txt","w",encoding="UTF-8",newline="") as title:
             csv_write = csv.DictWriter(title, fieldnames=fieldnames_user, quotechar='"')
             csv_write.writeheader()
     except FileNotFoundError:
         return False
-    fieldnames_card=["nombre","cedula","tarjeta","codigo","estado","saldo"]
+    fieldnames_card=["nombre","cedula","direccion","tarjeta","codigo","estado","saldo"]
     try:
-        with open("datos tarjeta.txt","w",encoding="UTF-8",newline="") as title:
+        with open("datos_tarjeta.txt","w",encoding="UTF-8",newline="") as title:
             csv_write = csv.DictWriter(title, fieldnames=fieldnames_card, quotechar='"')
             csv_write.writeheader()
     except FileNotFoundError:
         return False
     return
 
+def existencia():
+    if os.path.isfile("datos_usuarios.txt") and os.path.isfile("datos_tarjeta.txt"):
+        return True
+    else:
+        crear_archivos()
+
+
 def menu():
+    existencia(); print("")
     print('=' * 10, " Bienvenido Estimado Cliente ",'=' * 10); print("")
     while True:
         print("Opciones Disponibles...."); print("")
@@ -62,11 +61,9 @@ def menu():
                 print("6.   --->  Salir                       ")
                 print("")              
                 print(RED+"Ingrese una opcion Valida...")
-                print(WHITE+"")
-                time.sleep(1)
+                print(WHITE+"")               
                 continue
         limpiar_consola()
-
         if opcion == 1:
             registro_user()
             
